@@ -9,17 +9,46 @@ export const formSchema = z.object({
     })
 })
 
+
 export const toneOptions = [
-    {
-      value: "professional",
-      label: "Professional",
-    },
-    {
-      value: "funny",
-      label: "Funny",
-    },
-    {
-      value: "casual",
-      label: "Casual",
-    },
-  ];
+  {
+    value: "formal",
+    label: "Formal",
+  },
+  {
+    value: "casual",
+    label: "Casual",
+  },
+  {
+    value: "academic",
+    label: "Academic",
+  },
+  {
+    value: "persuasive",
+    label: "Persuasive",
+  },
+  {
+    value: "detailed",
+    label: "Detailed",
+  },
+  {
+    value: "funny",
+    label: "Funny",
+  },
+  {
+    value: "descriptive",
+    label: "Descriptive",
+  },
+  {
+    value: "analytical",
+    label: "Analytical",
+  },
+  {
+    value: "innovative",
+    label: "Innovative",
+  },
+  {
+    value: "motivational",
+    label: "Motivational",
+  },
+];

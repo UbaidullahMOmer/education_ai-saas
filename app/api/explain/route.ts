@@ -1,5 +1,6 @@
-// import { checkApiLimit, increaseAPiLimit } from "@/lib/api-limit";
-// import { auth } from "@clerk/nextjs";
+import { checkApiLimit, checkProApiLimit, increaseAPiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import OpenAI from "openai/index.mjs";
 
@@ -29,11 +30,19 @@ export async function POST(req: Request) {
             return new NextResponse("Tone is required", { status: 400 })
         }
 
-        // const freeTrail = await checkApiLimit()
+        const freeTrail = await checkApiLimit()
+        const isPro = await checkSubscription();
 
-        // if(!freeTrail){
-        //     return new NextResponse("Free Trail has expired", {status: 403})
-        // }
+        if(!freeTrail && !isPro){
+            console.log("Free Expired")
+            return new NextResponse("Free Trail has expired", {status: 403})
+        }
+
+        const proMode = await checkProApiLimit();
+        if(!proMode){
+            console.log("Pro Expired")
+            return new NextResponse("Pro mode has expired", {status: 403})
+        }
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
@@ -46,7 +55,7 @@ export async function POST(req: Request) {
             ]
         });
 
-        // await increaseAPiLimit()
+        await increaseAPiLimit()
         
         console.log(response)
         return NextResponse.json(response.choices[0].message, {status: 200})

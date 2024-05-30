@@ -10,26 +10,92 @@ export const formSchema = z.object({
   type: z.string().min(0, {
     message: "type is required",
   }),
+  citation: z.string().min(0, {
+    message: "type is required",
+  }),
 });
 
-export const writingToneOptions = [
+
+
+export const citationStyles = [
   {
-    value: "professional",
-    label: "Professional",
+    value: "APA",
+    label: "APA",
   },
+  {
+    value: "MLA",
+    label: "MLA",
+  },
+  {
+    value: "Chicago",
+    label: "Chicago",
+  },
+  {
+    value: "Harvard",
+    label: "Harvard",
+  },
+  {
+    value: "IEEE",
+    label: "IEEE",
+  },
+  {
+    value: "funny",
+    label: "Funny",
+  },
+  {
+    value: "Vancouver",
+    label: "Vancouver",
+  },
+  {
+    value: "None",
+    label: "None",
+  },
+];
+
+export const writingToneOptions = [
   {
     value: "formal",
     label: "Formal",
   },
   {
-    value: "informal",
-    label: "Informal",
+    value: "casual",
+    label: "Casual",
   },
   {
-    value: "technical",
-    label: "Technical",
+    value: "academic",
+    label: "Academic",
+  },
+  {
+    value: "persuasive",
+    label: "Persuasive",
+  },
+  {
+    value: "detailed",
+    label: "Detailed",
+  },
+  {
+    value: "funny",
+    label: "Funny",
+  },
+  {
+    value: "descriptive",
+    label: "Descriptive",
+  },
+  {
+    value: "analytical",
+    label: "Analytical",
+  },
+  {
+    value: "innovative",
+    label: "Innovative",
+  },
+  {
+    value: "motivational",
+    label: "Motivational",
   },
 ];
+
+
 
 export const writingTypeOptions = [
   {

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
-import { MAX_COUNTS_FREE } from "@/constants/db-constants";
+import { MAX_COUNTS_FREE, PRO_CREDITS } from "@/constants/db-constants";
 import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
 import { Zap } from "lucide-react";
@@ -23,7 +23,25 @@ const FreeCounter = ({
   }, []);
 
   if (!mounted) return null;
-  if (isPro) return null;
+  if (isPro) {
+    return (
+      <div className="px-3 text-white">
+        <Card className="bg-white/10 border-0">
+          <CardContent className="py-6">
+            <div className="text-center text-sm text-white mb-4 space-y-2">
+              <p>
+                {apiLimitCount} / {PRO_CREDITS} Credits Used
+              </p>
+              <Progress
+                className="h-3 text-purple-500"
+                value={(apiLimitCount / PRO_CREDITS) * 100}
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="px-3 text-white">

@@ -4,7 +4,7 @@ import * as z from "zod";
 import Heading from "@/components/heading";
 import { PenIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { formSchema, writingToneOptions, writingTypeOptions } from "./constants";
+import { citationStyles, formSchema, writingToneOptions, writingTypeOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -44,7 +44,8 @@ const WritingPage
       const response = await axios.post("/api/write", {
         messages: newMessages,
         tone: values.tone,
-        type: values.type
+        type: values.type,
+        citation: values.citation
       });
       setMessages((current) => [...current, userMessage, response.data]);
       form.reset();
@@ -88,8 +89,8 @@ const WritingPage
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-12">
                     <FormControl className="m-0 p-0">
-                      <Input
-                        className="border-2 p-2 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                      <textarea
+                        className="border-2 p-2 w-full outline-none rounded-lg focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
                         placeholder="Paste the text here"
                         {...field}
@@ -131,7 +132,7 @@ const WritingPage
                 control={form.control}
                 name="type"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-3">
+                  <FormItem className="col-span-12 lg:col-span-2">
                     <Select
                       disabled={isLoading}
                       onValueChange={field.onChange}
@@ -145,6 +146,34 @@ const WritingPage
                       </FormControl>
                       <SelectContent>
                         {writingTypeOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <label className="p-2 text-sm col-span-12 lg:col-span-2">Citation Styles:</label>
+              <FormField
+                control={form.control}
+                name="citation"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-2">
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {citationStyles.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
                           </SelectItem>
@@ -187,7 +216,7 @@ const WritingPage
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">{String(message.content)}</p>
+                <pre className="text-sm whitespace-pre-wrap">{String(message.content)}</pre>
               </div>
             ))}
           </div>

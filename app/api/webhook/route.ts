@@ -4,10 +4,10 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-export const maxDuration = 300;
+// export const maxDuration = 300;
 
 export async function POST(req: Request) {
-  const body = await req.text()
+  const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;
 
   let event: Stripe.Event;
@@ -43,6 +43,14 @@ export async function POST(req: Request) {
         ),
       },
     });
+    await prismadb.userApiLimit.update({
+      where: {
+        userId: session?.metadata?.userId,
+      },
+      data: {
+        count: 0,
+      },
+    });
   }
 
   if (event.type === "invoice.payment_succeeded") {
@@ -58,6 +66,14 @@ export async function POST(req: Request) {
         stripeCurrentPeroidEnd: new Date(
           subscription.current_period_end * 1000
         ),
+      },
+    });
+    await prismadb.userApiLimit.update({
+      where: {
+        userId: session?.metadata?.userId,
+      },
+      data: {
+        count: 0,
       },
     });
   }
