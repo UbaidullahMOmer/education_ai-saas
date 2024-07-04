@@ -4,7 +4,12 @@ import * as z from "zod";
 import Heading from "@/components/heading";
 import { PenIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { citationStyles, formSchema, writingToneOptions, writingTypeOptions } from "./constants";
+import {
+  citationStyles,
+  formSchema,
+  writingToneOptions,
+  writingTypeOptions,
+} from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -18,10 +23,15 @@ import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const WritingPage
- = () => {
+const WritingPage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
 
@@ -45,7 +55,7 @@ const WritingPage
         messages: newMessages,
         tone: values.tone,
         type: values.type,
-        citation: values.citation
+        citation: values.citation,
       });
       setMessages((current) => [...current, userMessage, response.data]);
       form.reset();
@@ -99,7 +109,9 @@ const WritingPage
                   </FormItem>
                 )}
               />
-              <label className="p-2 text-sm col-span-12 lg:col-span-1">Tone:</label>
+              <label className="p-2 text-sm col-span-12 lg:col-span-1">
+                Tone:
+              </label>
               <FormField
                 control={form.control}
                 name="tone"
@@ -127,7 +139,9 @@ const WritingPage
                   </FormItem>
                 )}
               />
-              <label className="p-2 text-sm col-span-12 lg:col-span-2">Type of Writing:</label>
+              <label className="p-2 text-sm col-span-12 lg:col-span-2">
+                Type of Writing:
+              </label>
               <FormField
                 control={form.control}
                 name="type"
@@ -155,7 +169,9 @@ const WritingPage
                   </FormItem>
                 )}
               />
-              <label className="p-2 text-sm col-span-12 lg:col-span-2">Citation Styles:</label>
+              <label className="p-2 text-sm col-span-12 lg:col-span-2">
+                Citation Styles:
+              </label>
               <FormField
                 control={form.control}
                 name="citation"
@@ -183,7 +199,7 @@ const WritingPage
                   </FormItem>
                 )}
               />
-              
+
               <Button
                 className="col-span-12 lg:col-span-12 w-full"
                 type="submit"
@@ -216,7 +232,9 @@ const WritingPage
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <pre className="text-sm whitespace-pre-wrap">{String(message.content)}</pre>
+                <pre className="text-sm whitespace-pre-wrap">
+                  {String(message.content)}
+                </pre>
               </div>
             ))}
           </div>
